@@ -28,3 +28,4 @@ I want your help with:
 2. Things I probably missed. 
 3. Time based deadline schedule. I know that this is not a good thing for learning. But enough learning, I want to build this thing. It's depressing to see these filthy news everyday and feel helpless. I want to make a change. 
 
+
