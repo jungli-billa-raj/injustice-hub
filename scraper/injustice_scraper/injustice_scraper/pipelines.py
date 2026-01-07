@@ -20,7 +20,7 @@ class SQLitePipeline:
         Runs once when the spider starts.
         Establishes DB connection.
         """
-        self.conn = sqlite3.connect("../../data/schema.db")
+        self.conn = sqlite3.connect("../../data/injustice.db")
         self.cursor = self.conn.cursor()
 
     def close_spider(self, spider):

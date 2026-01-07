@@ -32,7 +32,10 @@ class NewsSpider(scrapy.Spider):
             "//meta[@property='article:published_time']/@content"
         ).get()
 
-        paragraphs = response.xpath("//div[@id='content-body']//p/text()").getall()
+        paragraphs = response.xpath(
+            "//div[contains(@class,'articlebodycontent')]//p/text()"
+        ).getall()
+        self.logger.info("Parsed article: {response.url}")
         full_text = " ".join(paragraphs)
 
         # Guard clause: skip broken pages
