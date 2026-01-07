@@ -1,0 +1,96 @@
+## 📅 Day 1 — What we build **today** (nothing more, nothing less)
+
+### 🎯 **Goal for today**
+
+> **Collect and store raw news articles in a local SQLite database.**
+
+No intelligence.
+No LLM.
+No FastAPI.
+No frontend.
+
+Just **reliable raw data**.
+
+---
+
+## 🧱 What we will build today
+
+### 1️⃣ Project skeleton (minimal)
+
+```
+injustice-hub/
+├── scraper/
+│   └── injustice_scraper/
+│       ├── spiders/
+│       │   └── news_spider.py
+│       └── settings.py
+├── db/
+│   └── schema.sql
+├── data/
+│   └── injustice.db
+└── pyproject.toml
+```
+
+---
+
+### 2️⃣ SQLite database (raw storage only)
+
+**Table: `raw_articles`**
+
+| Column       | Purpose          |
+| ------------ | ---------------- |
+| id           | Primary key      |
+| source       | News source name |
+| url          | Article URL      |
+| headline     | Title            |
+| published_at | Date             |
+| full_text    | Article content  |
+| scraped_at   | Timestamp        |
+
+---
+
+### 3️⃣ Scrapy spider (ONE source only)
+
+* Scrape:
+
+  * headline
+  * publication date
+  * article text
+  * URL
+* Insert directly into SQLite
+* No filtering, no classification
+
+---
+
+### 4️⃣ Tooling rules
+
+* Python only
+* Dependency management: **`uv`**
+* Database: **SQLite**
+* Scraper: **Scrapy**
+
+---
+
+## ✅ End-of-day success criteria
+
+By the end of **Day 1**, you should be able to:
+
+* Run one command
+* Scrape real news articles
+* See rows inserted into `raw_articles`
+
+If **this works**, we move to Day 2.
+If it doesn’t, **we fix nothing else**.
+
+---
+
+## ⏭️ Next step (your call)
+
+Say **one** of these:
+
+* “Create SQLite schema”
+* “Set up uv project”
+* “Write Scrapy spider”
+* “Choose news source”
+
+
