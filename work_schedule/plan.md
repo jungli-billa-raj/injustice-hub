@@ -29,3 +29,15 @@ I want your help with:
 3. Time based deadline schedule. I know that this is not a good thing for learning. But enough learning, I want to build this thing. It's depressing to see these filthy news everyday and feel helpless. I want to make a change. 
 
 
+
+
+----------------------------------------------------
+
+1. We have successfully created a spider to extract archived news articles for any year after 1997 🤪.
+2. We have also laid the foundation for our LLM abstraction and pipeline which includes JSON Validation, DB insertion etc. 
+3. We have also written a script to populate the cases table in our database injustice.db with articles that are not processed already. 
+
+Here's what I'm thinking. This however is by no means a new direction for our project. Please stick with the plan you had proposed before we started coding this project. This is just what I've in back of my mind for what Injustice Hub should look and feel like. 
+1. I would like to include one more LLM call for each article which will simple take the headline of the article and tell if it's a crime or not. I'll obviously run it before processing results to save in 'cases' table. 
+2. I'm wondering about what if Indian Express bans me or my Private IP. Then I'm fkked. 
+3. Just for the sake of delivering a MVP, I'm thinking of scraping and populating my DB with news articles of one year, say 2025. Then, I'll process the articles and place them in cases table. Finally, I can work on the frontend to show what Injustice Hub is all about. 
