@@ -28,7 +28,6 @@ class SQLitePipeline:
         Runs once when the spider finishes.
         Closes DB connection safely.
         """
-        self.conn.commit()
         self.conn.close()
 
     def process_item(self, item, spider):
@@ -49,5 +48,7 @@ class SQLitePipeline:
                 item["full_text"],
             ),
         )
+        # commit here instead of before close() in close_spider()
+        self.conn.commit()
 
         return item

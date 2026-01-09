@@ -1,0 +1,118 @@
+---
+
+## 🟡 Day 2 — Intelligence Layer (LLM Core)
+
+### 🎯 Goal for Day 2
+
+> Convert **raw articles → structured injustice records** using an **LLM-agnostic interface**.
+
+No frontend.
+No visualizations.
+No heavy accuracy concerns.
+
+---
+
+## What we will build **today**
+
+### 1️⃣ Define the target structure (contract)
+
+A single Python dict like:
+
+```text
+blamed_entity
+entity_type            (individual | organization)
+location
+crime_description
+severity               (1–10)
+blame_status            (accused | guilty | liable)
+justice_status          (served | pending | escaped)
+confidence_score        (0.0 – 1.0)
+source_article_id
+```
+
+This is the **output contract**. Everything else obeys this.
+
+---
+
+### 2️⃣ LLM abstraction layer (core of Day 2)
+
+Create **one interface**, multiple backends later.
+
+Conceptually:
+
+```text
+LLMClient
+ ├── LocalLLMClient
+ ├── OpenAIClient      (future)
+ └── ClaudeClient      (future)
+```
+
+All must return **the same JSON schema**.
+
+No FastAPI calls yet.
+This runs as a **Python job**.
+
+---
+
+### 3️⃣ First implementation: Local LLM (dummy or real)
+
+For Day 2:
+
+* You may even **mock** the LLM response
+* Or call your local model over HTTP
+
+What matters:
+
+* Prompt design
+* JSON parsing
+* Validation
+
+---
+
+### 4️⃣ New table (this one *is* justified)
+
+Add:
+
+```
+cases
+```
+
+This table is **derived intelligence**, not raw facts.
+
+Raw stays untouched.
+
+---
+
+### 5️⃣ One offline processing script
+
+A script that:
+
+1. Reads N rows from `raw_articles`
+2. Sends text to LLM
+3. Stores structured result in `cases`
+
+No automation loop yet.
+
+---
+
+## What we are **not** doing today
+
+❌ No UI
+❌ No charts
+❌ No scheduling
+❌ No deduplication
+❌ No FastAPI endpoints
+
+---
+
+## End-of-Day 2 success criteria
+
+You can run **one command** and:
+
+* Pick 1–5 raw articles
+* See **structured injustice rows** in `cases`
+* Swap LLM backend without changing logic
+
+If this works → Day 3 is easy.
+
+---
