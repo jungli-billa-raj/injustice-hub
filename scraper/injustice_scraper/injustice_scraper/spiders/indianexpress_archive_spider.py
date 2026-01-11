@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 import scrapy
 
 
@@ -17,8 +19,19 @@ class IndianExpressArchiveSpider(scrapy.Spider):
     name = "indianexpress_archive"
     allowed_domains = ["indianexpress.com"]
 
-    # Archive start URL (page 1 of the day)
-    start_urls = ["https://indianexpress.com/archive/2024/04/01/"]
+    def start_requests(self):
+        """
+        Generate archive URLs for every day of 2025
+        and schedule them for crawling.
+        """
+        start = date(2025, 1, 1)
+        end = date(2025, 2, 1)
+
+        current = start
+        while current <= end:
+            url = f"https://indianexpress.com/archive/{current:%Y/%m/%d}/"
+            yield scrapy.Request(url, callback=self.parse)
+            current += timedelta(days=1)
 
     def parse(self, response):
         """
@@ -33,6 +46,8 @@ class IndianExpressArchiveSpider(scrapy.Spider):
         article_links = response.xpath(
             "//div[contains(@class,'article-list')]//p/a/@href"
         ).getall()
+
+        self.logger.info(f"Found {len(article_links)} article links on {response.url}")
 
         for link in article_links:
             # Schedule article page for parsing
@@ -64,8 +79,12 @@ class IndianExpressArchiveSpider(scrapy.Spider):
         ).get()
 
         # Extract article body text (main readable content)
+        # paragraphs = response.xpath(
+        #     "//div[contains(@class,'full-details')]//p/text()"
+        # ).getall()
         paragraphs = response.xpath(
-            "//div[contains(@class,'full-details')]//p/text()"
+            "//div[@itemprop='articleBody']//p//text() | "
+            "//div[contains(@class,'full-details')]//p//text()"
         ).getall()
 
         full_text = " ".join(p.strip() for p in paragraphs if p.strip())

@@ -61,6 +61,13 @@ DOWNLOAD_DELAY = 1
 ITEM_PIPELINES = {
     "injustice_scraper.pipelines.SQLitePipeline": 300,
 }
+# Crawl depth-first instead of breadth-first
+DEPTH_PRIORITY = 1
+
+# FIFO queues respect depth priority
+SCHEDULER_DISK_QUEUE = "scrapy.squeues.PickleFifoDiskQueue"
+SCHEDULER_MEMORY_QUEUE = "scrapy.squeues.FifoMemoryQueue"
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
