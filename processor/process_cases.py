@@ -1,10 +1,9 @@
 import sqlite3
-from classifier import classify
+from processor.classifier import classify
 from llm.local import LocalLLMClient
-from llm.validtaor import validate_case_json
-from llm.exceptions import LLMValidationError
-from validtaor import validate_case
-from policy import should_accept_case
+from llm.validator import validate_case_json
+from processor.validator import validate_case
+from processor.policy import should_accept_case
 
 # from extractor import extract_case
 
@@ -50,11 +49,8 @@ def main():
 
         stats["accepted"] += 1
 
-        try:
-            raw = llm.extract_case(article["full_text"])
-            case = validate_case_json(raw)
-        except LLMValidationError:
-            continue
+        raw = llm.extract_case(article["full_text"])
+        case = validate_case_json(raw)
 
         if not validate_case(case):
             continue

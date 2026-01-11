@@ -2,7 +2,7 @@
 Validates extracted case JSON before DB insert.
 """
 
-from schema import CASE_SCHEMA
+from processor.schema import CASE_SCHEMA
 
 
 def validate_case(case: dict) -> bool:
