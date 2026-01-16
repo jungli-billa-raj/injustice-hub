@@ -51,6 +51,8 @@ def main():
         stats["accepted"] += 1
 
         raw = llm.extract_case(article["full_text"])
+        if raw is None:
+            continue
         print(f"full text: {raw}")
         case = validate_case_json(raw)
 

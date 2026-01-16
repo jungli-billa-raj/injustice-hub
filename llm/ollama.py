@@ -36,7 +36,12 @@ class OllamaClient(LLMClient):
             raw = data.get("resposne")
             return json.loads(raw)
         except Exception as e:
-            raise InvalidLLMResponse(f"Ollama request failed: {e}")
+            # raise InvalidLLMResponse(f"Ollama request failed: {e}")
+            print("exception occured from Ollama. Skipping this article:")
+            if raw is not None:
+                print(f"raw response: {raw}")
+            print(f"exception: {e}")
+            pass
 
     def classify_case(self, headline: str) -> dict:
         prompt = CLASSIFIER_PROMPT.format(headline=headline)

@@ -68,11 +68,13 @@ Decide whether the following news headline describes a CRIME
 
 Respond ONLY in JSON with this format:
 
-{
+{{
   "is_crime": true | false,
   "confidence": number between 0 and 1
-}
+}}
 
 Headline:
-"{headline}"
+\"\"\"
+{headline}
+\"\"\"
 """
