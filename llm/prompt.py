@@ -58,3 +58,21 @@ Article:
 {article_text}
 \"\"\"
 """
+
+CLASSIFIER_PROMPT = """
+You are a strict classifier.
+
+Task:
+Decide whether the following news headline describes a CRIME
+(e.g. murder, assault, rape, fraud, corruption, arrest, police case).
+
+Respond ONLY in JSON with this format:
+
+{
+  "is_crime": true | false,
+  "confidence": number between 0 and 1
+}
+
+Headline:
+"{headline}"
+"""

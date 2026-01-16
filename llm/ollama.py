@@ -2,7 +2,7 @@ import requests
 import json
 
 from llm.base import LLMClient
-from llm.prompt import SYSTEM_PROMPT, USER_PROMPT_TEMPLATE
+from llm.prompt import SYSTEM_PROMPT, USER_PROMPT_TEMPLATE, CLASSIFIER_PROMPT
 from llm.exceptions import InvalidLLMResponse
 
 
@@ -37,3 +37,21 @@ class OllamaClient(LLMClient):
             return json.loads(raw)
         except Exception as e:
             raise InvalidLLMResponse(f"Ollama request failed: {e}")
+
+    def classify_case(self, headline: str) -> dict:
+        prompt = CLASSIFIER_PROMPT.format(headline=headline)
+
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": False,
+            "format": "json",
+        }
+
+        try:
+            resp = requests.post(self.url, json=payload, timeout=60)
+            resp.raise_for_status()
+            data = resp.json()
+            return json.loads(data["response"])
+        except Exception as e:
+            raise InvalidLLMResponse(f"Error in classifying case: {e}")
