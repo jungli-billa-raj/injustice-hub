@@ -1,6 +1,6 @@
 import sqlite3
 from processor.classifier import classify
-from llm.local import LocalLLMClient
+from llm.ollama import OllamaClient
 from llm.validator import validate_case_json
 from processor.validator import validate_case
 from processor.policy import should_accept_case
@@ -11,7 +11,7 @@ DB_PATH = "data/injustice.db"
 
 
 def main():
-    llm = LocalLLMClient()
+    llm = OllamaClient(host="192.168.29.210:11434", model="smollm2:135m")
     stats = {
         "total": 0,
         "classified_crime": 0,
