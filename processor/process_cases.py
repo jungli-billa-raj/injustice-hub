@@ -23,7 +23,7 @@ def main():
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    # Fetch unprocessed articles
+    # Fetch unprocessed articles (modify limit for testing)
     cur.execute("""
         SELECT *
         FROM raw_articles
@@ -31,7 +31,7 @@ def main():
             SELECT source_article_id FROM cases
         )
         ORDER BY published_at
-        LIMIT 50
+        LIMIT 5
     """)
 
     articles = cur.fetchall()
@@ -39,6 +39,7 @@ def main():
 
     for article in articles:
         stats["total"] += 1
+        # I can see that classify() is not using LLM
         is_crime, confidence = classify(article["headline"])
 
         if is_crime:
@@ -50,10 +51,13 @@ def main():
         stats["accepted"] += 1
 
         raw = llm.extract_case(article["full_text"])
+        print(f"full text: {raw}")
         case = validate_case_json(raw)
 
         if not validate_case(case):
             continue
+
+        print("validated")
 
         cur.execute(
             """
