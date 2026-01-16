@@ -11,7 +11,8 @@ DB_PATH = "data/injustice.db"
 
 
 def main():
-    llm = OllamaClient(host="192.168.29.210:11434", model="smollm2:135m")
+    # llm = OllamaClient(host="192.168.29.210:11434", model="phi3:medium")
+    llm = OllamaClient(host="192.168.29.210:11434", model="qwen2.5:0.5b")
     stats = {
         "total": 0,
         "classified_crime": 0,
@@ -39,8 +40,13 @@ def main():
 
     for article in articles:
         stats["total"] += 1
-        # I can see that classify() is not using LLM
-        is_crime, confidence = classify(article["headline"])
+
+        try:
+            is_crime, confidence = classify(article["headline"])
+        except Exception as e:
+            print(f"\nAn exception occured in classify(): {e}\n")
+            print("continuing")
+            continue
 
         if is_crime:
             stats["classified_crime"] += 1
@@ -48,18 +54,36 @@ def main():
         if not should_accept_case(is_crime, confidence):
             continue
 
+        # count of cases accepted for processing
         stats["accepted"] += 1
 
-        raw = llm.extract_case(article["full_text"])
+        print(f"processing full_text: {article['full_text']}")
+        try:
+            raw = llm.extract_case(article["full_text"])
+        except Exception as e:
+            print(f"\nAn exception occured in extract_case(): {e}\n")
+            print("continuing")
+            continue
+
         if raw is None:
             continue
         print(f"full text: {raw}")
-        case = validate_case_json(raw)
+        try:
+            case = validate_case_json(raw)
 
-        if not validate_case(case):
+            if not validate_case(case):
+                continue
+        except Exception as e:
+            print(
+                f"\nLLM didnot give proper result. Skipping article: {
+                    article['headline']
+                }\n"
+            )
+            print(f"Error: {e}")
             continue
 
         print("validated")
+        print("Inserting into DB\n------------")
 
         cur.execute(
             """
@@ -88,10 +112,9 @@ def main():
                 confidence,
             ),
         )
-
-        stats["inserted"] += 1
-
-    conn.commit()
+        if cur.rowcount == 1:
+            stats["inserted"] += 1
+            conn.commit()
 
     print("Pipeline stats:")
     for k, v in stats.items():
@@ -101,4 +124,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

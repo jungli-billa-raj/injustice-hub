@@ -42,16 +42,16 @@ Extract injustice information from the article below.
 
 Return JSON in this exact format:
 
-{
-  "blamed_entity": "...",
-  "entity_type": "individual | organization",
+{{
+  "blamed_entity": "name of the accused. Could be a person or an organization",
+  "entity_type": "individual or organization",
   "location": "... or null",
-  "crime_description": "...",
+  "crime_description": "descripton of the crime",
   "severity": 1,
-  "blame_status": "accused | guilty | liable",
-  "justice_status": "served | pending | escaped",
+  "blame_status": "accused or guilty or liable",
+  "justice_status": "served or pending or escaped",
   "confidence_score": 0.0
-}
+}}
 
 Article:
 \"\"\"

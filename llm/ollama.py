@@ -16,7 +16,8 @@ class OllamaClient(LLMClient):
         self.model = model
 
     def extract_case(self, article_text: str) -> dict:
-        prompt = USER_PROMPT_TEMPLATE + SYSTEM_PROMPT.format(article_text=article_text)
+        prompt = SYSTEM_PROMPT + USER_PROMPT_TEMPLATE.format(article_text=article_text)
+        print(f"PROMPT:{prompt}\n")
 
         payload = {
             "model": self.model,
@@ -32,12 +33,17 @@ class OllamaClient(LLMClient):
             raise InvalidLLMResponse(f"Ollama request failed: {e}")
 
         try:
+            print("Here's the resp.json():")
             data = resp.json()
-            raw = data.get("resposne")
+            print(data)
+            raw = data.get("response")
+            print("raw")
+            print(raw)
             return json.loads(raw)
         except Exception as e:
             # raise InvalidLLMResponse(f"Ollama request failed: {e}")
             print("exception occured from Ollama. Skipping this article:")
+            print(type(raw))  # This is coming as NoneType
             if raw is not None:
                 print(f"raw response: {raw}")
             print(f"exception: {e}")

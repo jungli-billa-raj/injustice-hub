@@ -46,6 +46,7 @@ def classify(headline: str) -> tuple[bool, float]:
 
     try:
         result = classifer_llm.classify_case(headline)
+        print("from classify.py using smollm2")
         print(result)
     except InvalidLLMResponse:
         return False, 0.0
