@@ -32,7 +32,7 @@ def main():
             SELECT source_article_id FROM cases
         )
         ORDER BY published_at
-        LIMIT 5
+        LIMIT 150
     """)
 
     articles = cur.fetchall()

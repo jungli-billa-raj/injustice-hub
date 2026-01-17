@@ -44,14 +44,23 @@ Return JSON in this exact format:
 
 {{
   "blamed_entity": "name of the accused. Could be a person or an organization",
-  "entity_type": "individual or organization",
-  "location": "... or null",
+  "entity_type": "individual or organization", (Choose one)
+  "location": "... or null", (Choose one)
   "crime_description": "descripton of the crime",
   "severity": 1,
-  "blame_status": "accused or guilty or liable",
-  "justice_status": "served or pending or escaped",
+  "blame_status": "accused or guilty or liable", (Choose one)
+  "justice_status": "served or pending or escaped", (Choose one)
   "confidence_score": 0.0
 }}
+
+Example: 
+1. Correct Response:
+{{'blamed_entity': 'Hamas', 'entity_type': 'organization', 'location': None, 'crime_description': 'The attack by Hamas led to the deaths of approximately 1,200 people and the taking of 251 hostages.', 'severity': 8, 'blame_status': 'accused', 'justice_status': 'pending', 'confidence_score': 0.9}}
+
+2. Bad Response:
+{{'blamed_entity': 'The Gujarat BJP', 'entity_type': 'individual', 'location': None, 'crime_description': 'fixed age limit for president of district/city units', 'severity': 10, 'blame_status': 'accused or guilty or liable', 'justice_status': 'pending', 'confidence_score': 1.0}}
+Here blame_status is invalid. 
+
 
 Article:
 \"\"\"

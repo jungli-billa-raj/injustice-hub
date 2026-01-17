@@ -17,7 +17,7 @@ class OllamaClient(LLMClient):
 
     def extract_case(self, article_text: str) -> dict:
         prompt = SYSTEM_PROMPT + USER_PROMPT_TEMPLATE.format(article_text=article_text)
-        print(f"PROMPT:{prompt}\n")
+        # print(f"PROMPT:{prompt}\n")
 
         payload = {
             "model": self.model,
