@@ -5,67 +5,81 @@ Your task:
 - Read a news article
 - Extract ONE primary injustice or alleged crime
 - Output ONLY a single JSON object
-- Follow the schema EXACTLY
+- The output MUST be valid JSON
 
-Rules:
+Strict rules:
+- Output ONLY the JSON object (no text before or after)
 - Do NOT explain anything
 - Do NOT add markdown
 - Do NOT include multiple JSON objects
 - Do NOT invent facts not present in the article
-- If information is unclear, make a reasonable best guess and LOWER confidence_score
+- Do NOT combine multiple values in one field
 
-Allowed values:
+Allowed values (MUST match exactly):
 
-entity_type:
-- individual
-- organization
+entity_type = ["individual", "organization"]
 
-blame_status:
-- accused
-- guilty
-- liable
+blame_status = ["accused", "guilty", "liable"]
 
-justice_status:
-- served
-- pending
-- escaped
+justice_status = ["served", "pending", "escaped"]
 
 severity:
 - Integer from 1 (minor) to 10 (severe)
 
 confidence_score:
 - Float from 0.0 to 1.0
+- Use lower values if information is unclear or inferred
+
+Before answering:
+- Verify all fields use allowed values
+- Verify the output is valid JSON
+
 """
 
 USER_PROMPT_TEMPLATE = """
-Extract injustice information from the article below.
+Extract ONE primary injustice or alleged crime from the article.
 
-Return JSON in this exact format:
+Return ONLY a valid JSON object matching this schema.
+Do NOT include explanations, comments, or extra text.
+
+JSON schema (follow exactly):
 
 {{
-  "blamed_entity": "name of the accused. Could be a person or an organization",
-  "entity_type": "individual or organization", (Choose one)
-  "location": "... or null", (Choose one)
-  "crime_description": "descripton of the crime",
+  "blamed_entity": "string",
+  "entity_type": "individual | organization",
+  "location": "string or null",
+  "crime_description": "string",
   "severity": 1,
-  "blame_status": "accused or guilty or liable", (Choose one)
-  "justice_status": "served or pending or escaped", (Choose one)
+  "blame_status": "accused | guilty | liable",
+  "justice_status": "served | pending | escaped",
   "confidence_score": 0.0
 }}
 
-Example: 
-1. Correct Response:
-{{'blamed_entity': 'Hamas', 'entity_type': 'organization', 'location': None, 'crime_description': 'The attack by Hamas led to the deaths of approximately 1,200 people and the taking of 251 hostages.', 'severity': 8, 'blame_status': 'accused', 'justice_status': 'pending', 'confidence_score': 0.9}}
+Important:
+- Use ONLY the allowed values shown above
+- Do NOT write multiple options in a field
+- Use null (not None) for missing values
+- severity must be an integer 1–10
+- confidence_score must be a float 0.0–1.0
 
-2. Bad Response:
-{{'blamed_entity': 'The Gujarat BJP', 'entity_type': 'individual', 'location': None, 'crime_description': 'fixed age limit for president of district/city units', 'severity': 10, 'blame_status': 'accused or guilty or liable', 'justice_status': 'pending', 'confidence_score': 1.0}}
-Here blame_status is invalid. 
+Example of a correct response:
 
+{{
+  "blamed_entity": "Hamas",
+  "entity_type": "organization",
+  "location": null,
+  "crime_description": "An attack that killed civilians and took hostages",
+  "severity": 8,
+  "blame_status": "accused",
+  "justice_status": "pending",
+  "confidence_score": 0.9
+}}
 
 Article:
 \"\"\"
 {article_text}
 \"\"\"
+
 """
 
 CLASSIFIER_PROMPT = """

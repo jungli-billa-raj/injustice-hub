@@ -25,14 +25,23 @@ def main():
     cur = conn.cursor()
 
     # Fetch unprocessed articles (modify limit for testing)
+    # cur.execute("""
+    #     SELECT *
+    #     FROM raw_articles
+    #     WHERE id NOT IN (
+    #         SELECT source_article_id FROM cases
+    #     )
+    #     ORDER BY published_at
+    #     LIMIT 200
+    # """)
     cur.execute("""
-        SELECT *
-        FROM raw_articles
-        WHERE id NOT IN (
-            SELECT source_article_id FROM cases
-        )
-        ORDER BY published_at
-        LIMIT 150
+    SELECT *
+    FROM raw_articles
+    WHERE id NOT IN (
+        SELECT source_article_id FROM cases
+    )
+    ORDER BY published_at
+    LIMIT 200
     """)
 
     articles = cur.fetchall()
