@@ -34,7 +34,10 @@
 
 <tbody>
   {#each data.data.items as row}
-    <tr>
+    <tr
+    style="cursor: pointer"
+  on:click={() => row.article_url && window.open(row.article_url, '_blank')}
+  >
       {#each columns as col}
         <td>{row[col] ?? '-'}</td>
       {/each}
