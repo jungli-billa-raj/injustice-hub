@@ -2,8 +2,8 @@
   export let data;
 
   const columns = [
-  'id',
-  'source_article_id',
+//  'id',
+//  'source_article_id',
   'blamed_entity',
   'entity_type',
 // 'location',

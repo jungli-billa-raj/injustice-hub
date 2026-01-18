@@ -1,5 +1,14 @@
 <script lang="ts">
   export let data;
+  const columns = [
+  { key: 'id', label: 'ID' },
+  { key: 'source', label: 'Source' },
+  { key: 'headline', label: 'Headline' },
+  { key: 'published_at', label: 'Published' },
+  { key: 'scraped_at', label: 'Scraped At' },
+  { key: 'url', label: 'URL' }
+  // { key: 'full_text', label: 'Full Text' }  // optional (very long)
+];
 </script>
 
 <h2>Raw Articles</h2>
