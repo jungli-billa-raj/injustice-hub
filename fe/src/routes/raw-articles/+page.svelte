@@ -4,9 +4,9 @@
   { key: 'id', label: 'ID' },
   { key: 'source', label: 'Source' },
   { key: 'headline', label: 'Headline' },
-  { key: 'published_at', label: 'Published' },
-  { key: 'scraped_at', label: 'Scraped At' },
-  { key: 'url', label: 'URL' }
+//  { key: 'published_at', label: 'Published' },
+//  { key: 'scraped_at', label: 'Scraped At' },
+//  { key: 'url', label: 'URL' }
   // { key: 'full_text', label: 'Full Text' }  // optional (very long)
 ];
 </script>
@@ -20,10 +20,9 @@
 <table border="1">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Headline</th>
-      <th>Source</th>
-      <th>Published</th>
+      {#each columns as col}
+        <th>{col.label}</th>
+      {/each}
     </tr>
   </thead>
 
@@ -33,15 +32,22 @@
         style="cursor: pointer"
         on:click={() => window.open(row.url, '_blank')}
       >
-        <td>{row.id}</td>
-        <td>{row.headline}</td>
-        <td>{row.source}</td>
-        <td>{row.published_at}</td>
+        {#each columns as col}
+          <td>
+            {#if col.key === 'url'}
+              <a href={row.url} target="_blank" rel="noopener noreferrer">
+                link
+              </a>
+            {:else}
+              {row[col.key] ?? '-'}
+            {/if}
+          </td>
+        {/each}
       </tr>
     {/each}
   </tbody>
-
 </table>
+
 
 <hr />
 
