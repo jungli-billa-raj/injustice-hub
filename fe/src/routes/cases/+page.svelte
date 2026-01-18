@@ -6,13 +6,13 @@
   'source_article_id',
   'blamed_entity',
   'entity_type',
-  'location',
+// 'location',
   'crime_description',
   'severity',
   'blame_status',
   'justice_status',
   'confidence_score',
-  'created_at'
+//  'created_at'
 ];
 </script>
 
@@ -23,28 +23,24 @@
 </p>
 
 <table border="1">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Blamed Entity</th>
-      <th>Entity Type</th>
-      <th>Location</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    {#each data.data.items as row}
-      <tr
-        style="cursor: pointer"
-        on:click={() => row.article_url && window.open(row.article_url, '_blank')}
-      >
-        <td>{row.id}</td>
-        <td>{row.blamed_entity}</td>
-        <td>{row.entity_type}</td>
-        <td>{row.location ?? '-'}</td>
-      </tr>
+<thead>
+  <tr>
+    {#each columns as col}
+      <th>{col}</th>
     {/each}
-  </tbody>
+  </tr>
+</thead>
+
+<tbody>
+  {#each data.data.items as row}
+    <tr>
+      {#each columns as col}
+        <td>{row[col] ?? '-'}</td>
+      {/each}
+    </tr>
+  {/each}
+</tbody>
 </table>
 
 <hr />
