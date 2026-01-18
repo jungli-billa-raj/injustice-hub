@@ -1,5 +1,19 @@
 <script lang="ts">
   export let data;
+
+  const columns = [
+  'id',
+  'source_article_id',
+  'blamed_entity',
+  'entity_type',
+  'location',
+  'crime_description',
+  'severity',
+  'blame_status',
+  'justice_status',
+  'confidence_score',
+  'created_at'
+];
 </script>
 
 <h2>Cases</h2>
