@@ -50,6 +50,14 @@
     <a href="?page={data.page - 1}">Prev</a>
   {/if}
 
+  {#each Array(Math.min(3, data.totalPages)) as _, i}
+  {@const p = data.page + i}
+  {#if p <= data.totalPages}
+    | <a href="?page={p}">{p}</a>
+  {/if}
+  {/each}
+
+
   {#if data.page < data.totalPages}
     {#if data.page > 1} | {/if}
     <a href="?page={data.page + 1}">Next</a>
